@@ -35,7 +35,7 @@ router.get("/show", (req, res) => {
                 }
                 
             // The challenge specifically asked for an answer rendered in a json format
-                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST + "/" + allObj[identifier]["shortCode"], "urlExist": urlExist});
+                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": HOST + allObj[identifier]["shortCode"], "urlExist": urlExist});
                 
             });
             
