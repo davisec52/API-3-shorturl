@@ -49,8 +49,6 @@ router.get("/show", (req, res) => {
 // Get route for shortUrl - handles redirection to original url
 router.get("/:shortUrl", (req, res) => {
     
-    console.log("req body url to shorten: ", req.body.urlToShorten);
-    
     if(req.params.shortUrl !== "favicon.ico" || req.params.shortUrl){
         
         UrlObj.findOne({shortCode:req.params.shortUrl}, (err, foundObj) => {
