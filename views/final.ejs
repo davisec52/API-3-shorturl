@@ -1,0 +1,23 @@
+<% include ./partials/header.ejs %>
+
+<div class="container big-box">
+    
+            <div id="inputbx">
+                
+                <% if(shorturl) { %>
+                    <div id="short-result"> https://nodec9-demo-davisec52.c9users.io/<%=shorturl %> </div>
+                <% } else { %>
+                   <div id="short-result"></div>
+                <% } %>
+                
+                <form action="/" method="POST">
+                    <input type="text" id="short" name="urlToShorten" placeholder="http://your-url-here.com"></input>
+                    <input type="submit" id="submit-url" class="postUrl" value="Submit"></input>
+                    <div id="clear-all">
+                        <a href="/" type="button" id="clear" >Clear / Start Over</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

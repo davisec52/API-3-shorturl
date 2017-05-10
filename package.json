@@ -1,0 +1,20 @@
+{
+  "name": "shorturl",
+  "version": "1.0.0",
+  "description": "simple url shortener micro service",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "evan davis",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "mongoose": "^4.9.7",
+    "request": "^2.81.0",
+    "url": "^0.11.0",
+    "valid-url": "^1.0.9"
+  }
+}

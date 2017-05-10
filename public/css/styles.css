@@ -1,0 +1,87 @@
+html,
+body{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: #f1f1f1;
+}
+
+:root{
+	font-family: Arial, Helvetica sans-serif;
+}
+
+h1{
+	font-size: 40px;
+}
+
+#header{
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 100px;
+	left: 0;
+	margin: 0 auto;
+	background-color: green;
+	text-align: center;
+}
+
+#inputbx{
+	position: relative;
+	max-width: 500px;
+	height: 500px;
+	border: 1px solid black;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 200px;
+	border-radius: 50%;
+}
+
+form{
+	margin-top: 50px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 50%;
+}
+
+#short{
+	font-size: 20px;
+	width: 430px;
+	height: 50px;
+	padding-left: 20px;
+}
+
+#short-result{
+	background-color: silver;
+	width: 500px;
+	height: 40px;
+	border: 1px solid black;
+	margin-top: 150px;
+	padding-top: 20px;
+	text-align: center;
+}
+
+.postUrl{
+	width: 75px;
+	height: 30px;
+	font-size: 20px;
+	margin-top: 5px;
+	margin-left: 75%;
+	margin-right: 25%;
+}
+
+#clear-all{
+	width: 175px;
+	height: 30px;
+	margin-top: 5px;
+	margin-left: 55%;
+	margin-right: 45%;
+	padding-top: 5px;
+	text-align: center;
+}
+
+a {
+	text-decoration: none;
+	padding: 5px;
+	font-size: 20px;
+	color: red;
+}
