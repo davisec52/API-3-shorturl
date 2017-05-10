@@ -35,7 +35,7 @@ router.get("/show", (req, res) => {
                 }
                 
             // The challenge specifically asked for an answer rendered in a json format
-                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": "https://nodec9-demo-davisec52.c9users.io/" + allObj[identifier]["shortCode"], "urlExist": urlExist});
+                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST + "/" + allObj[identifier]["shortCode"], "urlExist": urlExist});
                 
             });
             
