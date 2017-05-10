@@ -6,6 +6,7 @@ const helper = require("../helper/index");
 const hashID = require("hashids");
 const validUrl = require("valid-url");
 const request = require("request");
+const bodyParser = require("body-parser");
 
 // Index Get route
 router.get("/", (req, res) => {
