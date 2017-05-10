@@ -35,7 +35,7 @@ router.get("/show", (req, res) => {
                 }
                 
             // The challenge specifically asked for an answer rendered in a json format
-                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST + allObj[identifier]["shortCode"], "urlExist": urlExist});
+                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": "https://url-reduction-api.herokuapp.com/" + allObj[identifier]["shortCode"], "urlExist": urlExist});
                 
             });
             
@@ -74,7 +74,7 @@ router.post("/", (req, res) => {
     
     let longUrl = req.body.urlToShorten;
     
-    console.log("req.body.urlToShorten: ", req.body.urlToShorten);
+    console.log("req.body.urlToShorten: ", longUrl);
     let saltStr = helper.saltId();
     let hashid = new hashID(saltStr);
     let secretNum = helper.secretNums();
