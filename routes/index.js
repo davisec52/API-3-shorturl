@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 // Show -GET route - display the short url
 router.get("/show", (req, res) => {
     
-    console.log("calling HOST from get show route: ", process.env.HOST+"/");
+   // console.log("calling HOST from get show route: ", process.env.HOST+"/");
     
     UrlObj.find({}, (err, allObj) => {
         if(err){
@@ -38,7 +38,7 @@ router.get("/show", (req, res) => {
                 }
                 
             // The challenge specifically asked for an answer rendered in a json format
-                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST + allObj[identifier]["shortCode"], "urlExist": urlExist});
+                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST +"/" + allObj[identifier]["shortCode"], "urlExist": urlExist});
                 
             });
             
@@ -52,12 +52,13 @@ router.get("/show", (req, res) => {
 // Get route for shortUrl - handles redirection to original url
 router.get("/:shortUrl", (req, res) => {
     console.log("calling req params shortUrl: ", req.params.shortUrl);
-    if(/*req.params.shortUrl !== "favicon.ico" ||*/ req.params.shortUrl){
+    if(req.params.shortUrl !== "favicon.ico" || req.params.shortUrl){
         
         UrlObj.findOne({shortCode:req.params.shortUrl}, (err, foundObj) => {
             if(err){
                 
-                res.status(500).json({error: "Unable to validate url shortcode."});
+                console.log(err);
+               // res.status(500).json({error: "Unable to validate url shortcode."});
                 
             }else{
                 console.log("calling foundObj from get shorUrl #1: ", foundObj);
