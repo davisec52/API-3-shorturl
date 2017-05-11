@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 // Show -GET route - display the short url
 router.get("/show", (req, res) => {
     
-    console.log("calling HOST from get show route: ", process.env.HOST);
+    console.log("calling HOST from get show route: ", process.env.HOST+"/");
     
     UrlObj.find({}, (err, allObj) => {
         if(err){
@@ -51,7 +51,7 @@ router.get("/show", (req, res) => {
 
 // Get route for shortUrl - handles redirection to original url
 router.get("/:shortUrl", (req, res) => {
-    console.log(req.params.shortUrl);
+    console.log("calling req params shortUrl: ", req.params.shortUrl);
     if(/*req.params.shortUrl !== "favicon.ico" ||*/ req.params.shortUrl){
         
         UrlObj.findOne({shortCode:req.params.shortUrl}, (err, foundObj) => {
