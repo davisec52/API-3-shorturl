@@ -38,13 +38,13 @@ router.get("/show", (req, res) => {
                 }
                 
             // The challenge specifically asked for an answer rendered in a json format
-                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST +"/" + allObj[identifier]["shortCode"], "urlExist": urlExist});
+                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST +  allObj[identifier]["shortCode"], "urlExist": urlExist});
                 
             });
             
             // We can also receive the short url in a nicer html format by commenting out res.status above and
             // uncommenting the line below.
-               //  res.render("final", {shorturl: allObj[identifier]["shortCode"]});
+                // res.render("final", {shorturl: allObj[identifier]["shortCode"]});
         }
     });
 });
@@ -66,7 +66,6 @@ router.get("/:shortUrl", (req, res) => {
                 
                 console.log("calling foundObj longUrl from get shortUrl #3: ",foundObj["longUrl"]);
                 res.redirect(foundObj["longUrl"]);
-               // res.status(500).json({error: "An unidentified issue prevented acquisition of the target. Use back arrow and try again."});
             }
         });
     }else{
