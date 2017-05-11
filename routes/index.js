@@ -16,6 +16,8 @@ router.get("/", (req, res) => {
 // Show -GET route - display the short url
 router.get("/show", (req, res) => {
     
+    console.log("calling HOST from get show route: ", process.env.HOST);
+    
     UrlObj.find({}, (err, allObj) => {
         if(err){
             console.log(err);
