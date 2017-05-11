@@ -51,19 +51,22 @@ router.get("/show", (req, res) => {
 
 // Get route for shortUrl - handles redirection to original url
 router.get("/:shortUrl", (req, res) => {
+    
     console.log("calling req params shortUrl: ", req.params.shortUrl);
-    if(req.params.shortUrl !== "favicon.ico" || req.params.shortUrl){
+    
+    if(req.params.shortUrl !== "favicon.ico" && req.params.shortUrl){
         
         UrlObj.findOne({shortCode:req.params.shortUrl}, (err, foundObj) => {
+            console.log("calling foundObj from get shorUrl #1: ", foundObj);
             if(err){
                 
-                console.log(err);
-               // res.status(500).json({error: "Unable to validate url shortcode."});
+                res.status(500).json({error: "Unable to validate url shortcode."});
                 
             }else{
-                console.log("calling foundObj from get shorUrl #1: ", foundObj);
+                
                 console.log("calling foundObj longUrl from get shortUrl #3: ",foundObj["longUrl"]);
                 res.redirect(foundObj["longUrl"]);
+               // res.status(500).json({error: "An unidentified issue prevented acquisition of the target. Use back arrow and try again."});
             }
         });
     }else{
