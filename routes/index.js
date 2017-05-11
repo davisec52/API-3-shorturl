@@ -36,7 +36,7 @@ router.get("/show", (req, res) => {
                 }
                 
             // The challenge specifically asked for an answer rendered in a json format
-                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": "https://url-reduction-api.herokuapp.com/" + allObj[identifier]["shortCode"], "urlExist": urlExist});
+                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST + allObj[identifier]["shortCode"], "urlExist": urlExist});
                 
             });
             
@@ -58,7 +58,8 @@ router.get("/:shortUrl", (req, res) => {
                 res.status(500).json({error: "Unable to validate url shortcode."});
                 
             }else{
-                
+                console.log("calling foundObj from get shorUrl #1: ", foundObj);
+                console.log("calling foundObj longUrl from get shortUrl #3: ",foundObj["longUrl"]);
                 res.redirect(foundObj["longUrl"]);
             }
         });
@@ -107,6 +108,7 @@ router.post("/", (req, res) => {
                     let len = allObj.length-1;
                     
                     let counter = allObj.length;
+                    console.log("counter: ", allObj.length);
                     
         // Updates count using length as the counter.            
                     UrlObj.findOneAndUpdate({shortCode: allObj[len]["shortCode"]}, {$set: {count: counter}}, (err, doc) => {
