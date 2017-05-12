@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const UrlObj = require("../models/index");
 const helper = require("../helper/index");
 const hashID = require("hashids");
-const validUrl = require("valid-url");
 const request = require("request");
 const bodyParser = require("body-parser");
 
@@ -38,7 +37,7 @@ router.get("/show", (req, res) => {
                 }
                 
             // The challenge specifically asked for an answer rendered in a json format
-                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST +  allObj[identifier]["shortCode"], "urlExist": urlExist});
+                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST + "/" +  allObj[identifier]["shortCode"], "urlExist": urlExist});
                 
             });
             
@@ -75,7 +74,7 @@ router.get("/:shortUrl", (req, res) => {
 });
 
 // POST route - creates the database url object, gathers the long url, and routes it to /show for rendering
-router.post("/", (req, res) => {
+router.post("/post", (req, res) => {
     
     let longUrl = req.body.urlToShorten;
     

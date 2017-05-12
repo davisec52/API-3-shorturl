@@ -1,25 +1,34 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const validUrl = require("valid-url");
 const app = express();
 const indexRoutes = require("./routes/index");
 
-//mongoose.connect("mongodb://shorturluser:shorturlpw@ds133271.mlab.com:33271/shorturlapi");
-mongoose.connect(process.env.DBURI);
+//mongoose.connect(process.env.DBURI);
+mongoose.Prommise = global.PackageAPIromise;
+mongoose.connect("mongodb://localhost/shorturl_v1");
+//mongoose.connect(process.env.DBURI);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
-let checkUrl = function(req, res, next){
-    if(validUrl.isHttpUri(req.body.urlToShorten) || validUrl.isHttpsUri(req.body.urlToShorten) || req.body.urlToShorten === undefined){
-        next();
-    }else{
-        res.status(500).json({error: "Not a valid url. Url does not meet valid url format requirements."});
-    }
-};
+// Many thanks: The code for the regex provided by http://www.w3resource.com/javascript-exercises/javascript-regexp-exercise-9.php. Author unattributed. 
+let checkUrl = (req, res, next) => {
 
-app.use(checkUrl);
+  let urlStr = req.body.urlToShorten;
+  let regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+        if (regexp.test(urlStr) && urlStr !== "") {
+        
+          next();
+        }
+        else
+        {
+          res.send({error: "Invalid url format."});
+          return false;
+        }
+};
+    
+app.use("/post", checkUrl);
 
 app.use("/", indexRoutes);
 

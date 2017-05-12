@@ -16,3 +16,11 @@ Here are the specific user stories you should implement for this project:
 2. User Story: If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will 		 contain an error instead.
 
 3. User Story: When I visit that shortened URL, it will redirect me to my original link.
+
+
+Here is a link to my current instance of this app running on Heroku: https://url-reduction-api.herokuapp.com/. At this writing, I am using
+a free Mongo db provided by Mongo Labs. For that reason, I am only allowed five,
+functional db entries. After 5, the db needs to be reset. If your response shows that the 
+original, long url is different than the one you used, that means the db has exceed five entries, 
+and that I have not yet reset the db.
+
