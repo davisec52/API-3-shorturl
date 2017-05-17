@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const UrlObj = require("../models/index");
+const UrlObj = require("../models");
 const helper = require("../helper/index");
 const hashID = require("hashids");
 const request = require("request");
@@ -15,35 +15,36 @@ router.get("/", (req, res) => {
 // Show -GET route - display the short url
 router.get("/show", (req, res) => {
     
-   // console.log("calling HOST from get show route: ", process.env.HOST+"/");
-    
-    UrlObj.find({}, (err, allObj) => {
+    UrlObj.Counter.findById("urlSeq", (err, counterObj) => {
         if(err){
             console.log(err);
         }else{
-            console.log("total obj in collection: ", allObj);
-            
-            let identifier = allObj.length-1;
-            
-        // We check to see if url exists, and add boolean result to final json obj    
-            request.get(allObj[identifier]["longUrl"], (error, response, body) => {
-               
-                let urlExist;
-                
-                if(response === "" || response === undefined){
-                    urlExist = false;
+            UrlObj.Url.findById(counterObj.count, (err, newUrl) => {
+                console.log("checking newUrl from show: ", newUrl);
+                if(err){
+                    console.log(err);
                 }else{
-                     urlExist = true;
+                    
+                    request.get(newUrl["longUrl"], (err, response, body) => {
+                        
+                        let urlExist;
+                        
+                        if(err && err["code"] === "ENOTFOUND"){
+                            console.log("testing error: ", err["code"]);
+                            urlExist = false;
+                        }else if(response === "" && response=== undefined){
+                            urlExist = false;
+                        }else{
+                            urlExist = true;
+                        }
+                        console.log(urlExist);
+                        res.status(200).json({"long url": newUrl["longUrl"], "short url":  process.env.HOST + "/" + newUrl["shortCode"], "url active": urlExist});
+                    });
+                    // For html rendering, uncomment below and comment out res.status above
+                   // res.render("final", {"shorturl": newUrl["shortCode"], "host": process.env.HOST});
                 }
                 
-            // The challenge specifically asked for an answer rendered in a json format
-                res.status(200).json({"long url": allObj[identifier]["longUrl"], "short url": process.env.HOST + "/" +  allObj[identifier]["shortCode"], "urlExist": urlExist});
-                
             });
-            
-            // We can also receive the short url in a nicer html format by commenting out res.status above and
-            // uncommenting the line below.
-                // res.render("final", {shorturl: allObj[identifier]["shortCode"]});
         }
     });
 });
@@ -51,11 +52,11 @@ router.get("/show", (req, res) => {
 // Get route for shortUrl - handles redirection to original url
 router.get("/:shortUrl", (req, res) => {
     
-    console.log("calling req params shortUrl: ", req.params.shortUrl);
-    
     if(req.params.shortUrl !== "favicon.ico" && req.params.shortUrl){
         
-        UrlObj.findOne({shortCode:req.params.shortUrl}, (err, foundObj) => {
+        console.log("calling req params shortUrl: ", req.params.shortUrl);
+        
+        UrlObj.Url.findOne({shortCode:req.params.shortUrl}, (err, foundObj) => {
             console.log("calling foundObj from get shorUrl #1: ", foundObj);
             if(err){
                 
@@ -63,7 +64,7 @@ router.get("/:shortUrl", (req, res) => {
                 
             }else{
                 
-                console.log("calling foundObj longUrl from get shortUrl #3: ",foundObj["longUrl"]);
+              //  console.log("calling foundObj longUrl from get shortUrl #3: ",foundObj["longUrl"]);
                 res.redirect(foundObj["longUrl"]);
             }
         });
@@ -85,8 +86,8 @@ router.post("/post", (req, res) => {
     let id = hashid.encode(secretNum);
     let saltToken = hashid.salt;
     let shortCode = id;
+    
     let newID = {
-        count: 0,
         secretNums: secretNum,
         saltToken: saltToken,
         longUrl: longUrl,
@@ -95,40 +96,45 @@ router.post("/post", (req, res) => {
     
     // create mongo db item here
     
-    UrlObj.create(newID, (err, newObj) => {
+    UrlObj.Url.findOne({longUrl: req.body.urlToShorten}, (err, found) => {
+        console.log("calling found from post: ", found);
         if(err){
             
-            res.status(500).json({error: "Error. Unable to create a model for url."});
+            console.log(err);
             
+        }else if(found){
+            
+            console.log("url already exists in db.");
+            
+            res.status(200).json({"longUrl": found["longUrl"], "short url": process.env.HOST + "/" + found["shortCode"]});
+            // For html rendering, uncomment below and comment out res.status above
+           // res.render("final", {"shorturl": found["shortCode"], "host": process.env.HOST})
         }else{
-            UrlObj.find({}, (err, allObj) => {
-                
+            
+                    UrlObj.Url.create(newID, (err, newObj) => {
+                        
                 if(err){
                     
-                    res.status(500).json({error: "Problem finding url object."});
+                    res.status(500).json({error: "Error. Unable to create a model for url. " + err});
                     
                 }else{
-                    
-                    let len = allObj.length-1;
-                    
-                    let counter = allObj.length;
-                    console.log("counter: ", allObj.length);
-                    
-        // Updates count using length as the counter.            
-                    UrlObj.findOneAndUpdate({shortCode: allObj[len]["shortCode"]}, {$set: {count: counter}}, (err, doc) => {
-                        if(err){
-                            
-                            res.status(500).json({error: "Cannot find object."});
-                            
-                        }else{
-                            
-                            res.redirect("/show");
-                        }
-                    });
+                    console.log("calling newObj from post b4 redirect ", newObj);
+                    res.redirect("/show");
                 }
             });
         }
     });
+    
+  /*  UrlObj.Url.create(newID, (err, newObj) => {
+        if(err){
+            
+            res.status(500).json({error: "Error. Unable to create a model for url. " + err});
+            
+        }else{
+            
+            res.redirect("/show");
+        }
+    }); */
 });
 
 module.exports = router;
