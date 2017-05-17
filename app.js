@@ -5,8 +5,8 @@ const app = express();
 const indexRoutes = require("./routes/index");
 
 //mongoose.Prommise = global.PackageAPIromise;
-//mongoose.connect(process.env.DBURI);
-mongoose.connect("mongodb://localhost/shorturl_v1");
+mongoose.connect(process.env.DBURI);
+//mongoose.connect("mongodb://localhost/shorturl_v1");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");

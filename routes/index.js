@@ -124,17 +124,6 @@ router.post("/post", (req, res) => {
             });
         }
     });
-    
-  /*  UrlObj.Url.create(newID, (err, newObj) => {
-        if(err){
-            
-            res.status(500).json({error: "Error. Unable to create a model for url. " + err});
-            
-        }else{
-            
-            res.redirect("/show");
-        }
-    }); */
 });
 
 module.exports = router;
