@@ -1,11 +1,13 @@
+//"use strict";
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 const indexRoutes = require("./routes/index");
 
-//mongoose.Prommise = global.PackageAPIromise;
+//mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DBURI);
+//mongoose.connect("mongodb://shorturluser:shorturlpw@ds133271.mlab.com:33271/shorturlapi");
 //mongoose.connect("mongodb://localhost/shorturl_v1");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));

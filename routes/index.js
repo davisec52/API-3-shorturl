@@ -1,3 +1,4 @@
+"use strict";
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
@@ -39,9 +40,10 @@ router.get("/show", (req, res) => {
                         }
                         console.log(urlExist);
                         res.status(200).json({"long url": newUrl["longUrl"], "short url":  process.env.HOST + "/" + newUrl["shortCode"], "url active": urlExist});
+                        
+                        // For html rendering, uncomment below and comment out res.status above
+                        //res.render("final", {"shorturl": newUrl["shortCode"], "host": process.env.HOST});
                     });
-                    // For html rendering, uncomment below and comment out res.status above
-                   // res.render("final", {"shorturl": newUrl["shortCode"], "host": process.env.HOST});
                 }
                 
             });
