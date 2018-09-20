@@ -1,5 +1,5 @@
-"use strict";
-require("./.config/config.js");
+//"use strict";
+//require("./.config/config.js");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
