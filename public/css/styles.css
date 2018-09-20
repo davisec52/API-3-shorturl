@@ -16,6 +16,7 @@ h1{
 
 #header{
 	display: flex;
+	opacity: 1;
 	justify-content: center;
 	position: fixed;
 	top: 0;
@@ -25,6 +26,7 @@ h1{
 	margin: 0 auto;
 	background-color: green;
 	text-align: center;
+	z-index: 1;
 }
 
 #inputbx{
@@ -55,7 +57,7 @@ form{
 }
 
 #note {
-	margin: 150px auto 0 auto;
+	margin: 120px auto 0 auto;
 }
 
 #short-result{
@@ -78,12 +80,35 @@ form{
 	#short-result {
 		margin-top: 20px;
 	}
+	
+	#note {
+		margin: 175px auto 0 auto;
+	}
 }
 
 @media screen and (max-width: 360px) {
 	#short-result {
 		margin-top: 20px;
 	}
+	
+	#note {
+		margin-top: 120px;
+		margin-right: 3%;
+		font-size: 5.5vw;
+	}
+	
+	h1 {
+		font-size: 30px;
+	}
+	
+	#header {
+		min-height: 50px;
+	}
+	
+	form {
+		width: 90%;
+	}
+	
 }
 
 .postUrl{
